@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { emailVerificationTemplate } from "./templates.js";
+import { emailVerificationTemplate, otpTemplate } from "./templates.js";
 import {
   EMAIL_CREDENTIALS,
   EMAIL_USERNAME,
@@ -31,3 +31,18 @@ export const sendVerificationEmail = async (
     console.error("NODEMAILER VERIFICATION EMAIL ERROR", email);
   }
 };
+
+
+export const sendOTPEmail = async ( email: string, otp: string ) => {
+  try {
+    await transporter.sendMail({
+      from: EMAIL_USERNAME,
+      to: email,
+      subject: "Your One-Time Password (OTP)",
+      html: otpTemplate(otp)
+    });
+
+  } catch (error) {
+    console.error("NODEMAILER OTP EMAIL ERROR", email);
+  }
+}

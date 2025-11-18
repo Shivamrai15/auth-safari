@@ -19,3 +19,13 @@ export const LoginSchema = z.object({
   }),
   token: z.string().optional(),
 });
+
+
+export const PasswordlessLoginSchema = z.object({
+  email: z.email(),
+});
+
+export const VerifyOTPSchema = z.object({
+  email: z.email(),
+  otp: z.string().length(6, { message: "OTP must be 6 characters long" }).regex(/^\d{6}$/, { message: "OTP must be a 6-digit number" }),
+});
