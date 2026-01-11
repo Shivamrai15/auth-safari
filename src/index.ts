@@ -2,6 +2,7 @@ import express from "express";
 import routes from "./routes/index.js";
 import { PORT } from "./config/constants.js";
 import { connectDB, disconnectDB } from "./lib/db.js";
+import "./config/passport.js";
 
 const app = express();
 

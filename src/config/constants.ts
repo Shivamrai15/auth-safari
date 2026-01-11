@@ -7,8 +7,9 @@ export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 
 export const EMAIL_VERIFICATION_KEY = process.env.EMAIL_VERIFICATION_KEY;
+export const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 
 export const MOBILE_DEEP_LINK = {
-    SUCCESS: "safari://auth/success",
-    ERROR: "safari://auth/error",
+    SUCCESS: "safarimusic://sign-in/",
+    ERROR: "safarimusic://sign-in/",
 };
