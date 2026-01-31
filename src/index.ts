@@ -3,6 +3,7 @@ import routes from "./routes/index.js";
 import { PORT } from "./config/constants.js";
 import { connectDB, disconnectDB } from "./lib/db.js";
 import "./config/passport.js";
+import { connectRedis } from "./lib/redis.js";
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(routes);
 
 async function startServer() {
     await connectDB();
+    await connectRedis();
     
     const server = app.listen(PORT, () => {
         console.log(`Auth Server is running on port ${PORT}`);

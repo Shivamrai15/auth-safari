@@ -1,24 +1,26 @@
 import type { Request, Response } from "express";
 import { MOBILE_DEEP_LINK } from "../config/constants.js";
-import { generateAuthTokens } from "../lib/token.js";
+// import { generateAuthTokens } from "../lib/token.js";
+
 import { db } from "../lib/db.js";
+import { TokenManager } from "../lib/v3/token.js";
 
 export class AuthController {
     static async googleCallback(req: any, res: Response) {
         try {
 
-            const tokens = generateAuthTokens({
+            const tokens = await TokenManager.generateOnLogin({
                 userId: req.user.id,
                 email: req.user.email,
             });
 
-            await db.session.create({
-                data : {
-                    userId : req.user.id,
-                    sessionToken : tokens.refreshToken,
-                    expires : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-                }
-            });
+            // await db.session.create({
+            //     data : {
+            //         userId : req.user.id,
+            //         sessionToken : tokens.refreshToken,
+            //         expires : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+            //     }
+            // });
 
             const user = await db.user.findUnique({
                 where: { id: req.user.id },

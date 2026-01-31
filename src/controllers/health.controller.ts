@@ -5,7 +5,7 @@ export class HealthController {
         return res.status(200).json({
             status: "healthy",
             service: "Authentication Server API",
-            version: "1.1.0",
+            version: "2.0.0",
         });
     }
 }

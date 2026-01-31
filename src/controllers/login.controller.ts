@@ -3,7 +3,8 @@ import type { Request, Response } from "express";
 import { db } from "../lib/db.js";
 import { LoginSchema } from "../lib/schemas.js";
 import { sendVerificationEmail } from "../lib/mail.js";
-import { generateVerificationToken, tokenManager } from "../lib/token.js";
+import { generateVerificationToken } from "../lib/token.js";
+import { TokenManager } from "../lib/v3/token.js";
 
 export async function loginController(req: Request, res: Response) {
     try {
@@ -65,18 +66,18 @@ export async function loginController(req: Request, res: Response) {
             });
         }
 
-        const { accessToken, refreshToken } = tokenManager.generateAuthTokens({
+        const { accessToken, refreshToken } = await TokenManager.generateOnLogin({
             userId: user.id,
             email: user.email,
         });
 
-        await db.session.create({
-            data : {
-                userId : user.id,
-                sessionToken : refreshToken,
-                expires : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-            }
-        });
+        // await db.session.create({
+        //     data : {
+        //         userId : user.id,
+        //         sessionToken : refreshToken,
+        //         expires : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        //     }
+        // });
 
         return res.status(200).json({
             status: true,

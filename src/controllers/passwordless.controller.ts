@@ -4,7 +4,7 @@ import { db } from "../lib/db.js";
 import { generateOTP, verifyOTP } from "../lib/otp.js";
 import { sendOTPEmail } from "../lib/mail.js";
 import { PasswordlessLoginSchema, VerifyOTPSchema } from "../lib/schemas.js";
-import { tokenManager } from "../lib/token.js";
+import { TokenManager } from "../lib/v3/token.js";
 
 
 export async function passwordlessLoginController(req: Request, res: Response) {
@@ -86,18 +86,18 @@ export async function verifyOTPController(req: Request, res: Response) {
             });
         }
 
-        const { accessToken, refreshToken } = tokenManager.generateAuthTokens({
+        const { accessToken, refreshToken } = await TokenManager.generateOnLogin({
             userId: user.id,
             email: user.email,
         });
 
-        await db.session.create({
-            data : {
-                userId : user.id,
-                sessionToken : refreshToken,
-                expires : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-            }
-        });
+        // await db.session.create({
+        //     data : {
+        //         userId : user.id,
+        //         sessionToken : refreshToken,
+        //         expires : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        //     }
+        // });
     
         return res.status(200).json({
             status: true,
