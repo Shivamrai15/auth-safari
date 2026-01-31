@@ -2,6 +2,7 @@ import { Router } from "express";
 import { loginController } from "../controllers/login.controller.js";
 import { registerController } from "../controllers/register.controller.js";
 import { refreshTokenController } from "../controllers/refresh.controller.js";
+import { logoutController } from "../controllers/logout.controller.js";
 import passport from "passport";
 import { AuthController } from "../controllers/auth.controller.js";
 
@@ -10,7 +11,7 @@ const router = Router();
 router.post("/login", loginController);
 router.post("/register", registerController);
 router.post("/refresh", refreshTokenController);
-router.get("/logout", );
+router.get("/logout", logoutController);
 
 router.get(
     "/google",
